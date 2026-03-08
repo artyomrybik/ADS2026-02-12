@@ -47,13 +47,54 @@ public class C_GreedyKnapsack {
         //тут реализуйте алгоритм сбора рюкзака
         //будет особенно хорошо, если с собственной сортировкой
         //кроме того, можете описать свой компаратор в классе Item
-
         //ваше решение.
 
+        sort(items, 0, items.length-1);
+
+        for(int i = items.length-1; i>=0; i--){
+            if (W <= items[i].weight){
+               result += ((double) W /items[i].weight)*items[i].cost;
+               break;
+            }
+
+            W -= items[i].weight;
+            result += items[i].cost;
+        }
+
+        // 60 20. 3
+        // 100 50. 2
+        // 120 30. 4
+        //100 50. 2
 
         System.out.printf("Удалось собрать рюкзак на сумму %f\n", result);
         return result;
     }
+
+    public int partition(Item[] arr, int low, int high){
+        int pi = high;
+        int i = low;
+        for(int j = low; j<high; j++){
+            if (arr[j].compareTo(arr[pi])<0){
+                Item temp = arr[j];
+                arr[j] = arr[i];
+                arr[i] = temp;
+                i++;
+            }
+        }
+        Item temp = arr[pi];
+        arr[pi] = arr[i];
+        arr[i] = temp;
+        return i;
+    }
+
+    public void sort(Item[] arr, int low, int high){
+        if (low < high){
+            int  pi = partition(arr, low, high);
+            sort(arr, pi+1, high);
+            sort(arr, low, pi-1);
+        }
+    }
+
 
     private static class Item implements Comparable<Item> {
         int cost;
@@ -75,9 +116,10 @@ public class C_GreedyKnapsack {
         @Override
         public int compareTo(Item o) {
             //тут может быть ваш компаратор
+            double worthThis = (double) this.cost / this.weight;
+            double worthO = (double) o.cost / o.weight;
 
-
-            return 0;
+            return Double.compare(worthThis, worthO);
         }
     }
 }
