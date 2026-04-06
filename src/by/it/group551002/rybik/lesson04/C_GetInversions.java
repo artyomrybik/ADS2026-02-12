@@ -57,8 +57,70 @@ public class C_GetInversions {
         int result = 0;
         //!!!!!!!!!!!!!!!!!!!!!!!!     тут ваше решение   !!!!!!!!!!!!!!!!!!!!!!!!
 
+        for (int i = 0; i < n; i++) {
+            System.out.print(a[i]);
+        }
+        result = mergeSort(a, 0 ,n-1);
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
+
+    public static int  mergeSort(int[] arr, int left, int right) {
+        if (left >= right) {
+            return 0;
+        }
+
+        int inver  = 0;
+        int mid = (left + right) / 2;
+
+        inver += mergeSort(arr, left, mid);
+        inver += mergeSort(arr, mid + 1, right);
+
+        inver += merge(arr, left, mid, right);
+        return inver;
+    }
+
+    public static int merge(int[] arr, int left, int mid, int right) {
+        int[] temp = new int[right - left + 1];
+
+        int i = left;
+        int j = mid + 1;
+        int k = 0;
+        int inver = 0;
+
+        while (i <= mid && j <= right) {
+            if (arr[i] <= arr[j]) {
+                temp[k] = arr[i];
+                k++;
+                i++;
+            } else {
+                temp[k] = arr[j];
+                k++;
+                j++;
+                inver += mid - i + 1;
+            }
+        }
+
+        while (i<=mid) {
+            temp[k] = arr[i];
+            k++;
+            i++;
+        }
+
+        while (j <= right) {
+            temp[k] = arr[j];
+            k++;
+            j++;
+        }
+
+        // копируем обратно в исходный массив
+        for (int t = 0; t < temp.length; t++) {
+            arr[left + t] = temp[t];
+        }
+        return inver;
+    }
+
+
+
 }

@@ -54,7 +54,6 @@ public class B_MergeSort {
         // тут ваше решение (реализуйте сортировку слиянием)
         // https://ru.wikipedia.org/wiki/Сортировка_слиянием
 
-
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return a;
     }
@@ -83,7 +82,7 @@ public class B_MergeSort {
             if (arr[i] <= arr[j]) {
                 temp[k] = arr[i];
                 k++;
-                j++;
+                i++;
             } else {
                 temp[k] = arr[j];
                 k++;
